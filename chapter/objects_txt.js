@@ -1,15 +1,65 @@
 "use strict";
-
+ 
 /*    JavaScript 7th Edition
       Chapter 8
       Chapter case   
 
       Custom Objects Used in Poker Games
-      Author: 
-      Date:       
+      Author: tristan owen
+      Date:  4/6/2026
 
       Filename:       objects.js
  */
+
+   let pokerGame ={
+      currentBank: null,
+      currentBet: null,
+      placeBet: function(){
+         this.currentBank -= this.currentBet;
+         return this.currentBank
+      }
+   };
+
+   function pokerCard(cardSuit, cardRank){
+      this.suit = cardSuit;
+      this.rank = cardRank;
+   }
+
+   pokerCard.prototype.cardImage = function(){
+      return this.rank + "_" + this.suit + ".png";
+   }
+
+   function pokerDeck(){
+
+      let suits = ["clubs", "diamonds", "hearts", "spades"];
+      let ranks = ["2", "3", "4", "5", "6", "7", "8", "9", 
+                  "10", "jack", "queen", "king", "ace"];
+      this.cards = [];
+
+      for (let i = 0; i<4; i++){
+         for (let j = 0; j<13; j++){
+            this.cards.push(new pokerCard(suits[i], ranks[j]));
+         }
+      }
+      this.shuffle = function(){
+         this.cards.sort(function(){
+            return 0.5 - Math.random();
+         })
+      }
+
+      this.dealTo = function(pokerHand){
+         let cardsDealt = pokerHand.cards.length;
+         pokerHand.cards = this.cards.splice(0, cardsDealt);
+      }
+   };
+
+   function pokerHand(handLength){
+      this.cards = new Array(handLength);
+   }
+   pokerHand.prototype.replaceCard = function(index, pokerDeck){
+      this.cards[index] = pokerDeck.cards.shift();
+   }
+
 
 
 

@@ -1,11 +1,11 @@
-"use strict";
+"use strict"; 
 /*    JavaScript 7th Edition
       Chapter 8
       Chapter case   
 
       Draw Poker Game using Object Oriented Programming
-      Author: 
-      Date:       
+      Author: tristan owen
+      Date:  4/6/2026     
 
       Filename:       js08.js
  */
@@ -22,8 +22,19 @@ function playDrawPoker() {
    let betSelection = document.getElementById("bet");
    let bankBox = document.getElementById("bank");
    let cardImages = document.querySelectorAll("img.cardImg");
+   pokerGame.currentBank = 500;
+   pokerGame.currentBet = 25;
+
+   let myDeck = new pokerDeck();
+   myDeck.shuffle();
+
+   let myHand = new pokerHand(5);
+
+   bankBox.value = pokerGame.currentBank
+   betSelection.onchange = function(){
+      pokerGame.currentBet = parseInt(this.value);
+   }
     
-   
       dealButton.addEventListener("click", function() {
       if (pokerGame.currentBank >= pokerGame.currentBet) {
          // Enable the Draw and Stand buttons after the initial deal
@@ -33,7 +44,29 @@ function playDrawPoker() {
          standButton.disabled = false;      // Turn on the Stand Button
          statusBox.textContent = "";        // Erase any status messages
          
+         bankBox.value = pokerGame.placeBet();
 
+         if (myDeck.cards.length <10){
+            myDeck = new pokerDeck();
+            myDeck.shuffle();
+         }
+
+         myDeck.dealTo(myHand);
+         for (let i = 0; i < cardImages.length; i++){
+            cardImages[i].src = myHand.cards[i].cardImage();
+
+            cardImages[i].onclick = function(){
+               if(this.src.includes("cardback.png")){
+                  this.src = myHand.cards[i].cardImage();
+               }else{
+                  this.src = "cardback.png"
+               }
+            }
+         }
+
+      }else{
+         statusBox.textContent = "Insufficient Funds"
+      }
    });
    
    
