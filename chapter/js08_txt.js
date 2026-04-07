@@ -7,7 +7,7 @@
       Author: tristan owen
       Date:  4/6/2026     
 
-      Filename:       js08.js
+      Filename:       js08.js 
  */
 
 window.addEventListener("load", playDrawPoker);
@@ -76,8 +76,15 @@ function playDrawPoker() {
       betSelection.disabled = false;      // Turn on the Bet Selection list
       drawButton.disabled = true;         // Turn off the Draw button
       standButton.disabled = true;        // Turn off the Stand Button
-      
+      for (let i = 0; i < cardImages.length; i++) {
+         if (cardImages[i].src.includes("cardback.png")){
+            myHand.replaceCard(i, myDeck);
+            cardImages[i].src = myHand.cards[i].cardImage();
 
+         }
+      }
+      statusBox.textContent = myHand.getHandValue();
+      bankBox.value = pokerGame.payBet(statusBox.textContent);
 
    });
    
@@ -89,7 +96,9 @@ function playDrawPoker() {
       drawButton.disabled = true;         // Turn off the Draw button
       standButton.disabled = true;        // Turn off the Stand Button  
 
-    
+      statusBox.textContent = myHand.getHandValue();
+      
+      bankBox.value = pokerGame.payBet(statusBox.textContent);
    });
    
    
